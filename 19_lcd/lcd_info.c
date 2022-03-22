@@ -25,12 +25,13 @@ int main(int argc, char *argv[])
     printf("分辨率: %d*%d\n"
         "像素深度bpp: %d\n"
         "一行的字节数: %d\n"
-        "像素格式: R<%d %d> G<%d %d> B<%d %d>\n",
+        "像素格式: R<%d %d> G<%d %d> B<%d %d> A<%d %d>\n",
         fb_var.xres, fb_var.yres, fb_var.bits_per_pixel,
         fb_fix.line_length,
         fb_var.red.offset, fb_var.red.length,
         fb_var.green.offset, fb_var.green.length,
-        fb_var.blue.offset, fb_var.blue.length);
+        fb_var.blue.offset, fb_var.blue.length,
+		fb_var.transp.offset, fb_var.transp.length);
 
     /* 关闭设备文件退出程序 */
     close(fd);

@@ -19,16 +19,10 @@
 #include <sys/mman.h>
 #include <linux/fb.h>
 
-#define argb8888_to_rgb565(color)   ({ \
-            unsigned int temp = (color); \
-            ((temp & 0xF80000UL) >> 8) | \
-            ((temp & 0xFC00UL) >> 5) | \
-            ((temp & 0xF8UL) >> 3); \
-            })
 
 static int width;                   //LCD X分辨率
 static int height;                      //LCD Y分辨率
-static unsigned short *screen_base = NULL;      //映射后的显存基地址
+static unsigned long *screen_base = NULL;      //映射后的显存基地址
 
 /********************************************************************
  * 函数名称： lcd_draw_point
@@ -38,7 +32,6 @@ static unsigned short *screen_base = NULL;      //映射后的显存基地址
  ********************************************************************/
 static void lcd_draw_point(unsigned int x, unsigned int y, unsigned int color)
 {
-    unsigned short rgb565_color = argb8888_to_rgb565(color);//得到RGB565颜色值
 
     /* 对传入参数的校验 */
     if (x >= width)
@@ -47,7 +40,7 @@ static void lcd_draw_point(unsigned int x, unsigned int y, unsigned int color)
         y = height - 1;
 
     /* 填充颜色 */
-    screen_base[y * width + x] = rgb565_color;
+    screen_base[y * width + x] = color;
 }
 
 /********************************************************************
@@ -59,7 +52,6 @@ static void lcd_draw_point(unsigned int x, unsigned int y, unsigned int color)
 static void lcd_draw_line(unsigned int x, unsigned int y, int dir,
             unsigned int length, unsigned int color)
 {
-    unsigned short rgb565_color = argb8888_to_rgb565(color);//得到RGB565颜色值
     unsigned int end;
     unsigned long temp;
 
@@ -77,7 +69,7 @@ static void lcd_draw_line(unsigned int x, unsigned int y, int dir,
             end = width - 1;
 
         for ( ; x <= end; x++, temp++)
-            screen_base[temp] = rgb565_color;
+            screen_base[temp] = color;
     }
     else {  //垂直线
         end = y + length - 1;
@@ -85,7 +77,7 @@ static void lcd_draw_line(unsigned int x, unsigned int y, int dir,
             end = height - 1;
 
         for ( ; y <= end; y++, temp += width)
-            screen_base[temp] = rgb565_color;
+            screen_base[temp] = color;
     }
 }
 
@@ -118,7 +110,6 @@ static void lcd_fill(unsigned int start_x, unsigned int end_x,
             unsigned int start_y, unsigned int end_y,
             unsigned int color)
 {
-    unsigned short rgb565_color = argb8888_to_rgb565(color);//得到RGB565颜色值
     unsigned long temp;
     unsigned int x;
 
@@ -133,7 +124,7 @@ static void lcd_fill(unsigned int start_x, unsigned int end_x,
     for ( ; start_y <= end_y; start_y++, temp+=width) {
 
         for (x = start_x; x <= end_x; x++)
-            screen_base[temp + x] = rgb565_color;
+            screen_base[temp + x] = color;
     }
 }
 
@@ -158,6 +149,8 @@ int main(int argc, char *argv[])
     width = fb_var.xres;
     height = fb_var.yres;
 
+	printf("screen_size = %d , width = %d , height = %d \n",screen_size, width, height);
+
     /* 将显示缓冲区映射到进程地址空间 */
     screen_base = mmap(NULL, screen_size, PROT_WRITE, MAP_SHARED, fd, 0);
     if (MAP_FAILED == (void *)screen_base) {
@@ -166,17 +159,26 @@ int main(int argc, char *argv[])
         exit(EXIT_FAILURE);
     }
 
+
     /* 画正方形方块 */
     int w = height * 0.25;//方块的宽度为1/4屏幕高度
-    lcd_fill(0, width-1, 0, height-1, 0x0); //清屏（屏幕显示黑色）
+    lcd_fill(0, width-1, 0, height-1, 0x363636); //清屏（屏幕显示黑色）
+	usleep(500000);
     lcd_fill(0, w, 0, w, 0xFF0000); //红色方块
+	usleep(500000);
     lcd_fill(width-w, width-1, 0, w, 0xFF00);   //绿色方块
+	usleep(500000);
     lcd_fill(0, w, height-w, height-1, 0xFF);   //蓝色方块
+	usleep(500000);
     lcd_fill(width-w, width-1, height-w, height-1, 0xFFFF00);//黄色方块
+	
+	usleep(500000);
 
     /* 画线: 十字交叉线 */
-    lcd_draw_line(0, height * 0.5, 1, width, 0xFFFFFF);//白色线
-    lcd_draw_line(width * 0.5, 0, 0, height, 0xFFFFFF);//白色线
+    lcd_draw_line(0, height * 0.5, 1, width, 0x912CEE);//紫色
+    lcd_draw_line(width * 0.5, 0, 0, height, 0x912CEE);//紫色
+
+	usleep(500000);
 
     /* 画矩形 */
     unsigned int s_x, s_y, e_x, e_y;
@@ -185,9 +187,10 @@ int main(int argc, char *argv[])
     e_x = width - s_x;
     e_y = height - s_y;
 
-    for ( ; (s_x <= e_x) && (s_y <= e_y);
-            s_x+=5, s_y+=5, e_x-=5, e_y-=5)
+    for ( ; (s_x <= e_x) && (s_y <= e_y); s_x+=5, s_y+=5, e_x-=5, e_y-=5){
         lcd_draw_rectangle(s_x, e_x, s_y, e_y, 0xFFFFFF);
+		usleep(100000);
+	}
 
     /* 退出 */
     munmap(screen_base, screen_size);  //取消映射

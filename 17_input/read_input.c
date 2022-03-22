@@ -32,8 +32,8 @@ int main(int argc, char *argv[])
             exit(-1);
         }
 
-        printf("type:%d code:%d value:%d\n",
-                in_ev.type, in_ev.code, in_ev.value);
+        printf("type: %2d    code: %3d (%#-6X)    value: %3d\n",
+                in_ev.type, in_ev.code,in_ev.code, in_ev.value);
     }
 }
 

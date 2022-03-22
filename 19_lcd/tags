@@ -1,0 +1,40 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+argb8888_to_rgb565	lcd_test.c	22;"	d	file:
+bmp_file_header	bmp_show.c	/^} __attribute__ ((packed)) bmp_file_header;$/;"	t	typeref:struct:__anon1	file:
+bmp_info_header	bmp_show.c	/^} __attribute__ ((packed)) bmp_info_header;$/;"	t	typeref:struct:__anon2	file:
+bpp	bmp_show.c	/^    unsigned short bpp;         \/\/像素深度 $/;"	m	struct:__anon2	file:
+clr_omportant	bmp_show.c	/^    unsigned int clr_omportant;$/;"	m	struct:__anon2	file:
+clr_used	bmp_show.c	/^    unsigned int clr_used;$/;"	m	struct:__anon2	file:
+compression	bmp_show.c	/^    unsigned int compression;   \/\/压缩方式$/;"	m	struct:__anon2	file:
+height	bmp_show.c	/^    int height;                 \/\/图像高度$/;"	m	struct:__anon2	file:
+height	bmp_show.c	/^static int height;                      \/\/LCD Y分辨率$/;"	v	file:
+height	lcd_test.c	/^static int height;                      \/\/LCD Y分辨率$/;"	v	file:
+image_size	bmp_show.c	/^    unsigned int image_size;    \/\/图像大小$/;"	m	struct:__anon2	file:
+lcd_draw_line	lcd_test.c	/^static void lcd_draw_line(unsigned int x, unsigned int y, int dir,$/;"	f	file:
+lcd_draw_point	lcd_test.c	/^static void lcd_draw_point(unsigned int x, unsigned int y, unsigned int color)$/;"	f	file:
+lcd_draw_rectangle	lcd_test.c	/^static void lcd_draw_rectangle(unsigned int start_x, unsigned int end_x,$/;"	f	file:
+lcd_fill	lcd_test.c	/^static void lcd_fill(unsigned int start_x, unsigned int end_x,$/;"	f	file:
+line_length	bmp_show.c	/^static unsigned long line_length;       \/\/LCD一行的长度（字节为单位）$/;"	v	file:
+main	bmp_show.c	/^int main(int argc, char *argv[])$/;"	f
+main	lcd_info.c	/^int main(int argc, char *argv[])$/;"	f
+main	lcd_test.c	/^int main(int argc, char *argv[])$/;"	f
+offset	bmp_show.c	/^    unsigned int offset;        \/\/到位图数据的偏移量$/;"	m	struct:__anon1	file:
+planes	bmp_show.c	/^    unsigned short planes;          \/\/位面数$/;"	m	struct:__anon2	file:
+reserved1	bmp_show.c	/^    unsigned short reserved1;   \/\/保留字段1$/;"	m	struct:__anon1	file:
+reserved2	bmp_show.c	/^    unsigned short reserved2;       \/\/保留字段2$/;"	m	struct:__anon1	file:
+screen_base	bmp_show.c	/^static unsigned short *screen_base = NULL;        \/\/映射后的显存基地址$/;"	v	file:
+screen_base	lcd_test.c	/^static unsigned short *screen_base = NULL;      \/\/映射后的显存基地址$/;"	v	file:
+show_bmp_image	bmp_show.c	/^static int show_bmp_image(const char *path)$/;"	f	file:
+size	bmp_show.c	/^    unsigned int size;          \/\/位图信息头大小$/;"	m	struct:__anon2	file:
+size	bmp_show.c	/^    unsigned int size;          \/\/文件大小$/;"	m	struct:__anon1	file:
+type	bmp_show.c	/^    unsigned char type[2];      \/\/文件类型$/;"	m	struct:__anon1	file:
+width	bmp_show.c	/^    int width;                  \/\/图像宽度$/;"	m	struct:__anon2	file:
+width	bmp_show.c	/^static int width;                       \/\/LCD X分辨率$/;"	v	file:
+width	lcd_test.c	/^static int width;                   \/\/LCD X分辨率$/;"	v	file:
+x_pels_per_meter	bmp_show.c	/^    int x_pels_per_meter;       \/\/像素\/米$/;"	m	struct:__anon2	file:
+y_pels_per_meter	bmp_show.c	/^    int y_pels_per_meter;       \/\/像素\/米 $/;"	m	struct:__anon2	file:

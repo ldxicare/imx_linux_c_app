@@ -29,7 +29,7 @@ typedef struct bgr888_color {
 
 static int width;                       //LCD X分辨率
 static int height;                      //LCD Y分辨率
-static unsigned short *screen_base = NULL;        //映射后的显存基地址
+static unsigned long *screen_base = NULL;        //映射后的显存基地址
 static unsigned long line_length;       //LCD一行的长度（字节为单位）
 static unsigned int bpp;    //像素深度bpp
 
@@ -39,11 +39,10 @@ static int show_jpeg_image(const char *path)
     struct jpeg_error_mgr jerr;
     FILE *jpeg_file = NULL;
     bgr888_t *jpeg_line_buf = NULL;     //行缓冲区:用于存储从jpeg文件中解压出来的一行图像数据
-    unsigned short *fb_line_buf = NULL; //行缓冲区:用于存储写入到LCD显存的一行数据
+    unsigned long *fb_line_buf = NULL; //行缓冲区:用于存储写入到LCD显存的一行数据
     unsigned int min_h, min_w;
     unsigned int valid_bytes;
     int i;
-
     //绑定默认错误处理函数
     cinfo.err = jpeg_std_error(&jerr);
 
@@ -75,7 +74,9 @@ static int show_jpeg_image(const char *path)
     //为缓冲区分配内存空间
     jpeg_line_buf = malloc(cinfo.output_components * cinfo.output_width);
     fb_line_buf = malloc(line_length);
-
+	
+	printf("jpeg_line_buf malloc size = %d\n",cinfo.output_components * cinfo.output_width);
+	printf("fb_line_buf malloc size = %d\n",line_length);
     //判断图像和LCD屏那个的分辨率更低
     if (cinfo.output_width > width)
         min_w = width;
@@ -89,18 +90,21 @@ static int show_jpeg_image(const char *path)
 
     //读取数据
     valid_bytes = min_w * bpp / 8;//一行的有效字节数 表示真正写入到LCD显存的一行数据的大小
+	
+	printf("min_w = %d , min_h = %d , bpp = %d , valid_bytes = %d\n",min_w,min_h,bpp,valid_bytes);
+
     while (cinfo.output_scanline < min_h) {
 
         jpeg_read_scanlines(&cinfo, (unsigned char **)&jpeg_line_buf, 1);//每次读取一行数据
+        //将读取到的BGR888数据转为ARGB8888
+        for (i = 0; i < min_w; i++){
+			fb_line_buf[i] = (0xFF & jpeg_line_buf[i].red) 		<< 16	|
+							 (0xFF & jpeg_line_buf[i].green)	<< 8	|
+							 (0xFF & jpeg_line_buf[i].blue);
+		}
 
-        //将读取到的BGR888数据转为RGB565
-        for (i = 0; i < min_w; i++)
-            fb_line_buf[i] = ((jpeg_line_buf[i].red & 0xF8) << 8) |
-                    ((jpeg_line_buf[i].green & 0xFC) << 3) |
-                    ((jpeg_line_buf[i].blue & 0xF8) >> 3);
-
-        memcpy(screen_base, fb_line_buf, valid_bytes);
-        screen_base += width;//+width  定位到LCD下一行显存地址的起点
+        memcpy(screen_base + (cinfo.output_scanline-1)*width, fb_line_buf, valid_bytes);
+        //+width  定位到LCD下一行显存地址的起点
     }
 
     //解码完成
@@ -143,7 +147,10 @@ int main(int argc, char *argv[])
     width = fb_var.xres;
     height = fb_var.yres;
 
-    /* 将显示缓冲区映射到进程地址空间 */
+	printf("line_length = %d , bpp = %d , screen_size = %d , width = %d , height = %d\n",
+		    line_length, bpp,screen_size,width,height);    
+
+	/* 将显示缓冲区映射到进程地址空间 */
     screen_base = mmap(NULL, screen_size, PROT_WRITE, MAP_SHARED, fd, 0);
     if (MAP_FAILED == (void *)screen_base) {
         perror("mmap error");

@@ -1,0 +1,18 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+bgr888_color	show_jpeg_image.c	/^typedef struct bgr888_color {$/;"	s	file:
+bgr888_t	show_jpeg_image.c	/^} __attribute__ ((packed)) bgr888_t;$/;"	t	typeref:struct:bgr888_color	file:
+blue	show_jpeg_image.c	/^    unsigned char blue;$/;"	m	struct:bgr888_color	file:
+bpp	show_jpeg_image.c	/^static unsigned int bpp;    \/\/像素深度bpp$/;"	v	file:
+green	show_jpeg_image.c	/^    unsigned char green;$/;"	m	struct:bgr888_color	file:
+height	show_jpeg_image.c	/^static int height;                      \/\/LCD Y分辨率$/;"	v	file:
+line_length	show_jpeg_image.c	/^static unsigned long line_length;       \/\/LCD一行的长度（字节为单位）$/;"	v	file:
+main	show_jpeg_image.c	/^int main(int argc, char *argv[])$/;"	f
+red	show_jpeg_image.c	/^    unsigned char red;$/;"	m	struct:bgr888_color	file:
+screen_base	show_jpeg_image.c	/^static unsigned long *screen_base = NULL;        \/\/映射后的显存基地址$/;"	v	file:
+show_jpeg_image	show_jpeg_image.c	/^static int show_jpeg_image(const char *path)$/;"	f	file:
+width	show_jpeg_image.c	/^static int width;                       \/\/LCD X分辨率$/;"	v	file:

@@ -78,13 +78,22 @@ int main(int argc, char *argv[])
         exit(-1);
 
     /* 极性设置 */
-    if (gpio_config("active_low", "0"))
+    if (gpio_config("active_low", "1"))
         exit(-1);
 
-    /* 控制GPIO输出高低电平 */
-    if (gpio_config("value", argv[2]))
-        exit(-1);
-
+	if(atoi(argv[2]) > 1){
+		int num = atoi(argv[2]);
+		while(num--){
+			gpio_config("value","1");
+			sleep(1);
+			gpio_config("value","0");
+			sleep(1);
+		}
+	}else{
+		/* 控制GPIO输出高低电平 */
+		if (gpio_config("value", argv[2]))
+			exit(-1);
+	}
     /* 退出程序 */
     exit(0);
 }

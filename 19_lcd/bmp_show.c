@@ -47,7 +47,7 @@ typedef struct {
 /**** 静态全局变量 ****/
 static int width;                       //LCD X分辨率
 static int height;                      //LCD Y分辨率
-static unsigned short *screen_base = NULL;        //映射后的显存基地址
+static unsigned long *screen_base = NULL;        //映射后的显存基地址
 static unsigned long line_length;       //LCD一行的长度（字节为单位）
 
 /********************************************************************

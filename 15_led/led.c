@@ -6,8 +6,8 @@
 #include <unistd.h>
 #include <string.h>
 
-#define  LED_TRIGGER    "/sys/class/leds/sys-led/trigger"
-#define  LED_BRIGHTNESS "/sys/class/leds/sys-led/brightness"
+#define  LED_TRIGGER    "/sys/class/leds/red/trigger"
+#define  LED_BRIGHTNESS "/sys/class/leds/red/brightness"
 #define  USAGE()    fprintf(stderr, "usage:\n"  \
                 "    %s <on|off>\n"   \
                 "    %s <trigger> <type>\n", argv[0], argv[0])
@@ -44,6 +44,25 @@ int main(int argc, char *argv[])
         write(fd1, "none", 4); 	//先将触发模式设置为none
         write(fd2, "0", 1); 		//LED灭
     }
+	else if(!strcmp(argv[1], "toggle")) {
+		if(argc == 2){
+			write(fd1, "none", 4); 	//先将触发模式设置为none
+			write(fd2, "1", 1); 		//点亮LED
+			sleep(1);
+			write(fd1, "none", 4); 	//先将触发模式设置为none
+			write(fd2, "0", 1); 		//LED灭
+		}else if(argc == 3){
+			int num = atoi(argv[2]);
+			while(num--){
+				write(fd1, "none", 4); 	//先将触发模式设置为none
+				write(fd2, "1", 1); 		//点亮LED
+				sleep(1);
+				write(fd1, "none", 4); 	//先将触发模式设置为none
+				write(fd2, "0", 1); 		//LED灭
+				sleep(1);
+			}
+		}	
+	}
     else if (!strcmp(argv[1], "trigger")) {
         if (3 != argc) {
             USAGE();
