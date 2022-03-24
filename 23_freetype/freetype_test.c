@@ -28,16 +28,10 @@
 
 #define FB_DEV      "/dev/fb0"      //LCD设备节点
 
-#define argb8888_to_rgb565(color)   ({ \
-            unsigned int temp = (color); \
-            ((temp & 0xF80000UL) >> 8) | \
-            ((temp & 0xFC00UL) >> 5) | \
-            ((temp & 0xF8UL) >> 3); \
-            })
 
 static unsigned int width;                       //LCD宽度
 static unsigned int height;                      //LCD高度
-static unsigned short *screen_base = NULL;//LCD显存基地址 RGB565
+static unsigned long *screen_base = NULL;//LCD显存基地址 RGB565
 static unsigned long screen_size;
 static int fd = -1;
 
@@ -64,6 +58,8 @@ static int fb_dev_init(void)
     width = fb_var.xres;
     height = fb_var.yres;
 
+	printf("screen_size = %d, width = %d, height = %d\n",screen_size,width,height);
+
     /* 内存映射 */
     screen_base = mmap(NULL, screen_size, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
     if (MAP_FAILED == (void *)screen_base) {
@@ -73,7 +69,8 @@ static int fb_dev_init(void)
     }
 
     /* LCD背景刷成黑色 */
-    memset(screen_base, 0xFF, screen_size);
+    memset(screen_base, 0x5a, screen_size);
+	printf("paint backgroud!\n");
     return 0;
 }
 
@@ -124,7 +121,6 @@ static int freetype_init(const char *font, int angle)
 static void lcd_draw_character(int x, int y,
             const wchar_t *str, unsigned int color)
 {
-    unsigned short rgb565_color = argb8888_to_rgb565(color);//得到RGB565颜色值
     FT_GlyphSlot slot = face->glyph;
     size_t len = wcslen(str);   //计算字符的个数
     long int temp;
@@ -132,6 +128,7 @@ static void lcd_draw_character(int x, int y,
     int i, j, p, q;
     int max_x, max_y, start_y, start_x;
 
+	printf("lcd draw character in\n");
     // 循环加载各个字符
     for (n = 0; n < len; n++) {
 
@@ -175,7 +172,7 @@ static void lcd_draw_character(int x, int y,
 
                 // 如果数据不为0，则表示需要填充颜色
                 if (slot->bitmap.buffer[q * slot->bitmap.width + p])
-                    screen_base[temp + i] = rgb565_color;
+                    screen_base[temp + i] = color;
             }
         }
 
@@ -183,6 +180,7 @@ static void lcd_draw_character(int x, int y,
         x += slot->advance.x / 64;  //26.6固定浮点格式
         y -= slot->advance.y / 64;
     }
+	printf("lcd draw character out\n");
 }
 
 int main(int argc, char *argv[])
@@ -193,17 +191,20 @@ int main(int argc, char *argv[])
     if (fb_dev_init())
         exit(EXIT_FAILURE);
 
+	printf("fb_dev_init ok\n");
     /* freetype初始化 */
     if (freetype_init(argv[1], atoi(argv[2])))
         exit(EXIT_FAILURE);
 
+	printf("freetype_init ok\n");
     /* 在LCD上显示中文 */
     int y = height * 0.25;
-    lcd_draw_character(50, 100, L"路漫漫其修远兮，吾将上下而求索", 0x000000);
-    lcd_draw_character(50, y+100, L"莫愁前路无知己，天下谁人不识君", 0x9900FF);
-    lcd_draw_character(50, 2*y+100, L"君不见黄河之水天上来，奔流到海不复回", 0xFF0099);
-    lcd_draw_character(50, 3*y+100, L"君不见高堂明镜悲白发，朝如青丝暮成雪", 0x9932CC);
+    lcd_draw_character(50, 100, L"hellowrold,I love you!", 0x000000);
+	printf("show first draw_character ok\n");
+    lcd_draw_character(50, y+100, L"学无止境，勇攀高峰！", 0x9900FF);
+    lcd_draw_character(50, 2*y+100, L"My name is laidaixi!", 0xFF0099);
 
+	printf("show all draw_character ok\n");
     /* 退出程序 */
     FT_Done_Face(face);
     FT_Done_FreeType(library);

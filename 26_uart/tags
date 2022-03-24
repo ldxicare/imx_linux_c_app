@@ -1,0 +1,26 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+_GNU_SOURCE	uart_test.c	14;"	d	file:
+async_io_init	uart_test.c	/^static void async_io_init(void)$/;"	f	file:
+baudrate	uart_test.c	/^    unsigned int baudrate;      \/* 波特率 *\/$/;"	m	struct:uart_hardware_cfg	file:
+dbit	uart_test.c	/^    unsigned char dbit;         \/* 数据位 *\/$/;"	m	struct:uart_hardware_cfg	file:
+fd	uart_test.c	/^static int fd;      \/\/串口终端对应的文件描述符$/;"	v	file:
+io_handler	uart_test.c	/^static void io_handler(int sig, siginfo_t *info, void *context)$/;"	f	file:
+main	my_uart.c	/^int main()$/;"	f
+main	uart_test.c	/^int main(int argc, char *argv[])$/;"	f
+new_cfg	my_uart.c	/^struct termios new_cfg, old_cfg;$/;"	v	typeref:struct:termios
+old_cfg	my_uart.c	/^struct termios new_cfg, old_cfg;$/;"	v	typeref:struct:
+old_cfg	uart_test.c	/^static struct termios old_cfg;  \/\/用于保存终端的配置参数$/;"	v	typeref:struct:termios	file:
+open_port	my_uart.c	/^int open_port(const char * com_port)$/;"	f
+parity	uart_test.c	/^    char parity;                \/* 奇偶校验 *\/$/;"	m	struct:uart_hardware_cfg	file:
+sbit	uart_test.c	/^    unsigned char sbit;         \/* 停止位 *\/$/;"	m	struct:uart_hardware_cfg	file:
+set_port	my_uart.c	/^int set_port(int fd, int baud_rate,$/;"	f
+show_help	uart_test.c	/^static void show_help(const char *app)$/;"	f	file:
+uart_cfg	uart_test.c	/^static int uart_cfg(const uart_cfg_t *cfg)$/;"	f	file:
+uart_cfg_t	uart_test.c	/^} uart_cfg_t;$/;"	t	typeref:struct:uart_hardware_cfg	file:
+uart_hardware_cfg	uart_test.c	/^typedef struct uart_hardware_cfg {$/;"	s	file:
+uart_init	uart_test.c	/^static int uart_init(const char *device)$/;"	f	file:

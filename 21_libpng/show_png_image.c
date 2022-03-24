@@ -23,7 +23,7 @@
 
 static int width;                       //LCD X分辨率
 static int height;                      //LCD Y分辨率
-static unsigned short *screen_base = NULL;        //映射后的显存基地址
+static unsigned long *screen_base = NULL;        //映射后的显存基地址
 static unsigned long line_length;       //LCD一行的长度（字节为单位）
 static unsigned int bpp;    //像素深度bpp
 
@@ -32,7 +32,7 @@ static int show_png_image(const char *path)
     png_structp png_ptr = NULL;
     png_infop info_ptr = NULL;
     FILE *png_file = NULL;
-    unsigned short *fb_line_buf = NULL; //行缓冲区:用于存储写入到LCD显存的一行数据
+    unsigned long *fb_line_buf = NULL; //行缓冲区:用于存储写入到LCD显存的一行数据
     unsigned int min_h, min_w;
     unsigned int valid_bytes;
     unsigned int image_h, image_w;
@@ -105,14 +105,14 @@ static int show_png_image(const char *path)
     unsigned int temp = min_w * 3;  //RGB888 一个像素3个bit位
     for(i = 0; i < min_h; i++) {
 
-        // RGB888转为RGB565
+        // RGB888转为ARGB8888
         for(j = k = 0; j < temp; j += 3, k++)
-            fb_line_buf[k] = ((row_pointers[i][j] & 0xF8) << 8) |
-                ((row_pointers[i][j+1] & 0xFC) << 3) |
-                ((row_pointers[i][j+2] & 0xF8) >> 3);
+            fb_line_buf[k] = ((row_pointers[i][j+0] & 0xFF) << 16) |
+                			 ((row_pointers[i][j+1] & 0xFF) << 8) |
+               				 ((row_pointers[i][j+2] & 0xFF) << 0);
 
-        memcpy(screen_base, fb_line_buf, valid_bytes);//将一行数据刷入显存
-        screen_base += width;   //定位到显存下一行
+        memcpy(screen_base + i*width, fb_line_buf, valid_bytes);//将一行数据刷入显存
+        //定位到显存下一行
     }
 
     /* 结束、销毁/释放内存 */

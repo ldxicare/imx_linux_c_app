@@ -26,7 +26,7 @@
 
 static int width;                       //LCD宽度
 static int height;                      //LCD高度
-static unsigned short *screen_base = NULL;//LCD显存基地址
+static unsigned long *screen_base = NULL;//LCD显存基地址
 
 static unsigned char ch_char1[86][8] = {
 {0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00},
@@ -384,12 +384,6 @@ static unsigned char ch_char4[86][8] = {
 {0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00},/*"子",3*/
 };
 
-#define argb8888_to_rgb565(color)   ({ \
-            unsigned int temp = (color); \
-            ((temp & 0xF80000UL) >> 8) | \
-            ((temp & 0xFC00UL) >> 5) | \
-            ((temp & 0xF8UL) >> 3); \
-            })
 
 /********************************************************************
  * 函数名称： lcd_draw_character
@@ -402,7 +396,6 @@ static void lcd_draw_character(unsigned int x, unsigned int y,
             const unsigned char *ch, unsigned int w,
             unsigned int h, unsigned int color)
 {
-    unsigned short rgb565_color = argb8888_to_rgb565(color);//得到RGB565颜色值
     unsigned long temp;
     unsigned int end_x, end_y;
     int j;
@@ -442,7 +435,7 @@ static void lcd_draw_character(unsigned int x, unsigned int y,
         for (x = 0, j = 0; x < w; ) {
 
             if (*(ch + y * columns + j) & (0x1 << (x % 8)))
-                screen_base[temp + x] = rgb565_color;
+                screen_base[temp + x] = color;
             x++;
             if (0 == x % 8) j++;
         }
@@ -485,9 +478,9 @@ int main(void)
     /* 显示字符 */
     int x = width * 0.5 - 128;
     int y = height * 0.5 - 43;
-    lcd_draw_character(x, y, (unsigned char *)ch_char1, 64, 86, 0xFF00FF);
-    lcd_draw_character(x + 64, y, (unsigned char *)ch_char2, 64, 86, 0xFF00FF);
-    lcd_draw_character(x + 128, y, (unsigned char *)ch_char3, 64, 86, 0xFF00FF);
+    lcd_draw_character(x, y, (unsigned char *)ch_char1, 64, 86, 0xFF0000);
+    lcd_draw_character(x + 64, y, (unsigned char *)ch_char2, 64, 86, 0x00FF00);
+    lcd_draw_character(x + 128, y, (unsigned char *)ch_char3, 64, 86, 0x0000FF);
     lcd_draw_character(x + 192, y, (unsigned char *)ch_char4, 64, 86, 0xFF00FF);
 
     /* 退出程序 */

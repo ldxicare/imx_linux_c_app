@@ -8,7 +8,9 @@
  论坛 : www.openedv.com
  日志 : 初版 V1.0 2021/7/20 邓涛创建
  ***************************************************************/
-
+/*
+*	https://www.cnblogs.com/fensnote/p/13436439.html
+*/
 #define _GNU_SOURCE     //在源文件开头定义_GNU_SOURCE宏
 #include <stdio.h>
 #include <stdlib.h>
@@ -314,18 +316,20 @@ int main(int argc, char *argv[])
     switch (rw_flag) {
     case 0:  //读串口数据
         async_io_init();	//我们使用异步I/O方式读取串口的数据，调用该函数去初始化串口的异步I/O
-        for ( ; ; )
+		write(fd,"helloworld!\r\n",13);
+        for ( ; ; ){
             sleep(1);   	//进入休眠、等待有数据可读，有数据可读之后就会跳转到io_handler()函数
+		}
         break;
     case 1:   //向串口写入数据
         for ( ; ; ) {   		//循环向串口写入数据
             write(fd, w_buf, 11); 	//一次向串口写入8个字节
             sleep(1);       		//间隔1秒钟
 		
-	    write(fd, "this is Simon Lai.\r\n",21);
-	    sleep(1);
-        }
-        break;
+			write(fd, "this is Simon Lai.\r\n",21);
+			sleep(1);
+		}
+		break;
     }
 
     /* 退出 */

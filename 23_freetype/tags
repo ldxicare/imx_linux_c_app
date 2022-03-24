@@ -1,0 +1,28 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+FB_DEV	freetype_test.c	29;"	d	file:
+FB_DEV	show_char.c	25;"	d	file:
+ch_char1	show_char.c	/^static unsigned char ch_char1[86][8] = {$/;"	v	file:
+ch_char2	show_char.c	/^static unsigned char ch_char2[86][8] = {$/;"	v	file:
+ch_char3	show_char.c	/^static unsigned char ch_char3[86][8] = {$/;"	v	file:
+ch_char4	show_char.c	/^static unsigned char ch_char4[86][8] = {$/;"	v	file:
+face	freetype_test.c	/^static FT_Face face;$/;"	v	file:
+fb_dev_init	freetype_test.c	/^static int fb_dev_init(void)$/;"	f	file:
+fd	freetype_test.c	/^static int fd = -1;$/;"	v	file:
+freetype_init	freetype_test.c	/^static int freetype_init(const char *font, int angle)$/;"	f	file:
+height	freetype_test.c	/^static unsigned int height;                      \/\/LCD高度$/;"	v	file:
+height	show_char.c	/^static int height;                      \/\/LCD高度$/;"	v	file:
+lcd_draw_character	freetype_test.c	/^static void lcd_draw_character(int x, int y,$/;"	f	file:
+lcd_draw_character	show_char.c	/^static void lcd_draw_character(unsigned int x, unsigned int y,$/;"	f	file:
+library	freetype_test.c	/^static FT_Library library;$/;"	v	file:
+main	freetype_test.c	/^int main(int argc, char *argv[])$/;"	f
+main	show_char.c	/^int main(void)$/;"	f
+screen_base	freetype_test.c	/^static unsigned long *screen_base = NULL;\/\/LCD显存基地址 RGB565$/;"	v	file:
+screen_base	show_char.c	/^static unsigned long *screen_base = NULL;\/\/LCD显存基地址$/;"	v	file:
+screen_size	freetype_test.c	/^static unsigned long screen_size;$/;"	v	file:
+width	freetype_test.c	/^static unsigned int width;                       \/\/LCD宽度$/;"	v	file:
+width	show_char.c	/^static int width;                       \/\/LCD宽度$/;"	v	file:
