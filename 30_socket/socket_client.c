@@ -19,9 +19,9 @@
 #include <netinet/in.h>
 
 #define SERVER_PORT		8888          	//服务器的端口号
-#define SERVER_IP   	"192.168.1.150"	//服务器的IP地址
+#define SERVER_IP   	"192.168.0.55"	//服务器的IP地址
 
-int main(void)
+int main(int argc,char **argv)
 {
     struct sockaddr_in server_addr = {0};
     char buf[512];
@@ -38,8 +38,11 @@ int main(void)
     /* 调用connect连接远端服务器 */
     server_addr.sin_family = AF_INET;
     server_addr.sin_port = htons(SERVER_PORT);  //端口号
-    inet_pton(AF_INET, SERVER_IP, &server_addr.sin_addr);//IP地址
-
+	if(argc ==1)
+   		inet_pton(AF_INET, SERVER_IP, &server_addr.sin_addr);//IP地址
+	else
+   		inet_pton(AF_INET, argv[1], &server_addr.sin_addr);//IP地址
+		
     ret = connect(sockfd, (struct sockaddr *)&server_addr, sizeof(server_addr));
     if (0 > ret) {
         perror("connect error");
